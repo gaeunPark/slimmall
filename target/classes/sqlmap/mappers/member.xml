@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hkit.slimmall.member.mapper.MemberMapper">
+	<select id="selectProductOrderViewVO" resultType="kr.hkit.slimmall.member.mapper.ProductOrderViewVO">
+		SELECT * FROM product_order_view 
+		WHERE member_idx=#{memberIdx} 
+		ORDER BY idx DESC
+	</select>
+	<update id="updateOrderStatus">
+		UPDATE `order` SET status=#{status} 
+		WHERE idx=#{idx}
+	</update>
+	<update id="updateOrderPaymentType">
+		UPDATE `order` SET payment_type=#{paymentType} 
+		WHERE idx=#{idx}
+	</update>
+</mapper>

@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+a,a:link{text-decoration:none;}
+a:hover,a:active,a:focus{text-decoration:none;}
+a {outline: 0;}
+a: hover,a: active,a: focus {outline: none;}
+
+footer {
+	margin-top: 20px;
+}
+.block-center {
+	width: 1024px;		
+	margin: auto;
+	display: block;
+}
+header {
+	min-height: 60px;
+}
+nav {
+	min-height: 30px;
+}
+#gnb {
+	padding: 0;
+	margin: 0;
+}
+#gnb li {
+	display: inline;
+	margin-right: 10px;
+}

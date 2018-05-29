@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.hkit.slimmall.admin.mapper.AdminMapper">
+
+	<sql id="columns">
+		<if test="tableName == 'category'">name</if>
+		<if test="tableName == 'member'">username, password, email, phone, address</if>
+		<if test="tableName == 'order'">member_idx, product_idx, qty, update_time</if>
+		<if test="tableName == 'product'">name, description, price, qty, image_name, category_idx</if>
+		<if test="tableName == 'purchase'">order_idx, status, payment_type</if>
+	</sql>
+	<sql id="values">
+		<if test="tableName == 'category'">#{name}</if>
+		<if test="tableName == 'member'">#{username}, #{password}, #{email}, #{phone}, #{address}</if>
+		<if test="tableName == 'order'">#{memberIdx}, #{productIdx}, #{qty}, NOW()</if>
+		<if test="tableName == 'product'">#{name}, #{description}, #{price}, #{qty}, #{imageName}, #{categoryIdx}</if>
+		<if test="tableName == 'purchase'">#{orderIdx}, #{status}, #{paymentType}</if>
+	</sql>
+	<sql id="sets">
+		<if test="tableName == 'category'">name=#{name}</if>
+		<if test="tableName == 'member'">username=#{username}, password=#{password}, email=#{email}, phone=#{phone}, address=#{address}</if>
+		<if test="tableName == 'order'">member_idx=#{memberIdx}, product_idx=#{productIdx}, qty=#{qty}, create_time=#{createTime}, update_time=#{updateTime}</if>
+		<if test="tableName == 'product'">name=#{name}, description=#{description}, price=#{price}, qty=#{qty}, image_name=#{imageName}, category_idx=#{categoryIdx}</if>
+		<if test="tableName == 'purchase'">order_idx=#{orderIdx}, status=#{status}, payment_type=#{paymentType}</if>
+	</sql>
+		
+	<insert id="insertAdminVO" useGeneratedKeys="true" keyProperty="idx">
+		INSERT INTO `${tableName}` (<include refid="columns"/>) 
+		VALUES (<include refid="values"/>)		
+	</insert>
+	<select id="selectAdminVOs" resultType="kr.hkit.slimmall.admin.mapper.AdminVO">
+		SELECT *, '${tableName}' AS tableName FROM `${tableName}` 
+		ORDER BY idx DESC
+	</select>
+	<select id="selectAdminVO" resultType="kr.hkit.slimmall.admin.mapper.AdminVO">
+		SELECT *, '${tableName}' AS tableName FROM `${tableName}` WHERE idx=#{idx}
+	</select>
+	<update id="updateAdminVO">
+		UPDATE `${tableName}` 
+		SET <include refid="sets"/>
+		WHERE idx=#{idx}
+	</update>
+	<delete id="deleteAdminVO">
+		DELETE FROM `${tableName}` 
+		WHERE IDX=#{idx}
+	</delete>
+	
+	
+	
+	<select id="selectMemberVOs" resultType="kr.hkit.slimmall.admin.mapper.MemberVO">
+		SELECT * FROM member
+	</select>
+	<delete id="deleteMember">
+		DELETE FROM member
+		WHERE idx=#{idx}
+	</delete>
+	<select id="selectOrderVOs" resultType="kr.hkit.slimmall.admin.mapper.OrderVO">
+		SELECT b.username, c.name AS product_name, a.* FROM `order` a
+		JOIN member b ON a.member_idx=b.idx
+		JOIN product c ON a.product_Idx=c.idx
+	</select>
+	<insert id="insertProductVO">
+		INSERT INTO product (name, description, price, qty, image_name, category_idx) 
+		VALUES (#{name}, #{description}, #{price}, #{qty}, #{imageName}, #{categoryIdx})		
+	</insert>
+	<select id="selectCategoryVOs" resultType="kr.hkit.slimmall.admin.mapper.CategoryVO">
+		SELECT * FROM category
+	</select>
+	
+	<insert id="insertMemberVO" >
+		INSERT INTO member (username, password, email, phone, address) 
+		VALUES (#{username}, #{password}, #{email}, #{phone}, #{address})		
+	</insert>
+	<select id="selectProductVOs" resultType="kr.hkit.slimmall.admin.mapper.ProductVO">
+		SELECT * FROM product
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>
